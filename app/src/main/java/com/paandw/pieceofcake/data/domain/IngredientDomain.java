@@ -12,7 +12,7 @@ public class IngredientDomain extends BaseDomain {
 
     public IngredientDomain() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.yummly.com/v1/api")
+                .baseUrl("http://api.yummly.com/v1/api/")
                 .addConverterFactory(new IngredientConverterFactory(new Gson()))
                 .build();
 
