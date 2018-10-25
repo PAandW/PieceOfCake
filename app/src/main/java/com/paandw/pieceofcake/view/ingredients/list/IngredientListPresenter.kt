@@ -1,32 +1,43 @@
 package com.paandw.pieceofcake.view.ingredients.list
 
-import android.arch.persistence.room.Room
 import com.paandw.pieceofcake.data.events.GetIngredientsEvent
 import com.paandw.pieceofcake.data.models.Ingredient
-import com.paandw.pieceofcake.data.models.IngredientData
-import com.paandw.pieceofcake.data.room.IngredientDao
 import com.paandw.pieceofcake.data.room.IngredientDatabase
 import com.paandw.pieceofcake.data.service.IngredientService
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 
 class IngredientListPresenter {
     private var service: IngredientService = IngredientService()
-    private var ingredientDao : IngredientDao
+    private var ingredientDatabase : IngredientDatabase
     private var view: IIngredientListView
 
-    constructor(view: IIngredientListView, ingredientDao: IngredientDao) {
+    constructor(view: IIngredientListView, ingredientDatabase: IngredientDatabase) {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
         this.view = view
-        this.ingredientDao = ingredientDao
+        this.ingredientDatabase = ingredientDatabase
 
-        if (ingredientDao.count().value == null || ingredientDao.count().value == 0) {
-            service.getIngredients()
+
+        doAsync {
+            var makeCall = false
+            if (ingredientDatabase.ingredientDao().count() == 0) {
+                makeCall = true
+            }
+            uiThread {
+                if (makeCall) {
+                    service.getIngredients()
+                }
+                else {
+                    searchIngredients("%pea%")
+                }
+            }
         }
+
     }
 
     fun onPause() {
@@ -34,7 +45,21 @@ class IngredientListPresenter {
     }
 
     fun onResume() {
-        EventBus.getDefault().register(this)
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
+    }
+
+    fun searchIngredients(query: String) {
+        doAsync {
+            var ingredients = ingredientDatabase.ingredientDao().searchIngredients(query)
+
+            uiThread {
+                if (ingredients.size > 0) {
+                    view.showIngredient(ingredients[0])
+                }
+            }
+        }
     }
 
     @Subscribe(sticky = true)
@@ -42,17 +67,22 @@ class IngredientListPresenter {
         EventBus.getDefault().removeStickyEvent(event.javaClass)
         if (event.isSuccess) {
             val ingredientList = ArrayList<Ingredient>()
-            for(i in 0..event.ingredientData.size) {
+            for(i in 0 until event.ingredientData.size) {
                 val ingredient = Ingredient()
                 ingredient.id = i + 1
                 ingredient.searchValue = event.ingredientData[i].searchValue
                 ingredient.term = event.ingredientData[i].term
                 ingredientList.add(ingredient)
             }
-            ingredientDao.insertIngredients(ingredientList)
-        }
 
-        view.showIngredient(ingredientDao.searchIngredients("salt").value!![0])
+            doAsync {
+                var ingredient: Ingredient
+                ingredientDatabase.ingredientDao().insertIngredients(ingredientList)
+                uiThread {
+                    view.showIngredient(ingredientList[0])
+                }
+            }
+        }
     }
 
 
