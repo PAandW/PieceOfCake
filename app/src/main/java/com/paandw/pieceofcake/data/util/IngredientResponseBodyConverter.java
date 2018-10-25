@@ -25,11 +25,12 @@ public class IngredientResponseBodyConverter<T> implements Converter<ResponseBod
     public T convert(ResponseBody value) throws IOException {
         Reader reader = value.charStream();
         int item = reader.read();
-        while (item != '(' && item != -1) {
+        while (item != ' ') {
             item = reader.read();
         }
 
         JsonReader jsonReader = gson.newJsonReader(reader);
+        jsonReader.setLenient(true);
         try {
             return adapter.read(jsonReader);
         } finally {
