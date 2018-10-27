@@ -4,7 +4,5 @@ import com.paandw.pieceofcake.data.models.Ingredient
 
 
 interface IIngredientListView {
-    fun showProgress()
-    fun hideProgress()
-    fun showIngredient(ingredient: Ingredient)
+    fun bindIngredients(ingredients: List<Ingredient>)
 }

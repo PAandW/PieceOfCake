@@ -6,8 +6,6 @@ import com.paandw.pieceofcake.data.room.IngredientDatabase
 import com.paandw.pieceofcake.data.service.IngredientService
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 
 class IngredientListPresenter {
@@ -22,22 +20,6 @@ class IngredientListPresenter {
         this.view = view
         this.ingredientDatabase = ingredientDatabase
 
-
-        doAsync {
-            var makeCall = false
-            if (ingredientDatabase.ingredientDao().count() == 0) {
-                makeCall = true
-            }
-            uiThread {
-                if (makeCall) {
-                    service.getIngredients()
-                }
-                else {
-                    searchIngredients("%pea%")
-                }
-            }
-        }
-
     }
 
     fun onPause() {
@@ -47,18 +29,6 @@ class IngredientListPresenter {
     fun onResume() {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
-        }
-    }
-
-    fun searchIngredients(query: String) {
-        doAsync {
-            var ingredients = ingredientDatabase.ingredientDao().searchIngredients(query)
-
-            uiThread {
-                if (ingredients.size > 0) {
-                    view.showIngredient(ingredients[0])
-                }
-            }
         }
     }
 
@@ -73,14 +43,6 @@ class IngredientListPresenter {
                 ingredient.searchValue = event.ingredientData[i].searchValue
                 ingredient.term = event.ingredientData[i].term
                 ingredientList.add(ingredient)
-            }
-
-            doAsync {
-                var ingredient: Ingredient
-                ingredientDatabase.ingredientDao().insertIngredients(ingredientList)
-                uiThread {
-                    view.showIngredient(ingredientList[0])
-                }
             }
         }
     }
