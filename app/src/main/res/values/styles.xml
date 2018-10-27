@@ -12,7 +12,7 @@
         <!--Sets the toolbar color-->
         <item name="android:background">?attr/colorAccent</item>
         <!--Sets the text color of the toolbar title-->
-        <item name="titleTextColor">?android:attr/textColorPrimary</item>
+        <item name="titleTextColor">@android:color/white</item>
     </style>
 
 </resources>
