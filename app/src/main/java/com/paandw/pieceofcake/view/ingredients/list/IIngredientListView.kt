@@ -4,5 +4,5 @@ import com.paandw.pieceofcake.data.models.Ingredient
 
 
 interface IIngredientListView {
-    fun bindIngredients(ingredients: List<Ingredient>)
+    fun bindIngredients(ingredients: MutableList<Ingredient>)
 }
