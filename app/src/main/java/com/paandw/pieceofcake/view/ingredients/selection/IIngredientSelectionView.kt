@@ -8,5 +8,6 @@ interface IIngredientSelectionView {
     fun showLoadingDialog()
     fun hideLoadingDialog()
     fun bindData(ingredientList: MutableList<Ingredient>)
+    fun selectIngredient(ingredient: Ingredient)
 
 }

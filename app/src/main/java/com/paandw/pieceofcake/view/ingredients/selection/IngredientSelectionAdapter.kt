@@ -25,7 +25,7 @@ internal class IngredientSelectionAdapter (private val presenter: IngredientSele
     override fun getItemCount(): Int = searchItems.size
 
     override fun onBindViewHolder(holder: IngredientSelectionAdapter.ViewHolder, position: Int) {
-        holder.searchItem.setup(searchItems[position])
+        holder.searchItem.setup(searchItems[position], presenter)
     }
 
     internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

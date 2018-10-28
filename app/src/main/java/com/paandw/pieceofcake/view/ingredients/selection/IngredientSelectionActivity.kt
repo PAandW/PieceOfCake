@@ -7,6 +7,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.paandw.pieceofcake.R
 import com.paandw.pieceofcake.data.models.Ingredient
@@ -63,5 +64,9 @@ class IngredientSelectionActivity : AppCompatActivity(), IIngredientSelectionVie
 
     override fun bindData(ingredientList: MutableList<Ingredient>) {
         adapter?.setSearchItems(ingredientList)
+    }
+
+    override fun selectIngredient(ingredient: Ingredient) {
+        Toast.makeText(this, "${ingredient.term} added to list", Toast.LENGTH_SHORT).show()
     }
 }

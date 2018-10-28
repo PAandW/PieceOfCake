@@ -4,6 +4,7 @@ import com.paandw.pieceofcake.data.events.GetIngredientsEvent
 import com.paandw.pieceofcake.data.models.Ingredient
 import com.paandw.pieceofcake.data.room.IngredientDatabase
 import com.paandw.pieceofcake.data.service.IngredientService
+import com.paandw.pieceofcake.data.util.GlobalIngredientList
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.doAsync
@@ -15,6 +16,7 @@ class IngredientSelectionPresenter {
     private var view: IIngredientSelectionView
     private var database: IngredientDatabase
     private var service: IngredientService
+    private val ingredientList = ArrayList<Ingredient>()
 
     constructor(view: IIngredientSelectionView, database: IngredientDatabase) {
         this.view = view
@@ -36,21 +38,42 @@ class IngredientSelectionPresenter {
     }
 
     fun searchIngredients(searchTerm: String) {
+        ingredientList.clear()
         doAsync {
-            val ingredientList = ArrayList<Ingredient>()
             ingredientList.addAll(database.ingredientDao().searchIngredients("%$searchTerm%"))
 
             uiThread {
+                for(existingIngredient: Ingredient in GlobalIngredientList.get()) {
+                    var temp = existingIngredient
+                    for (ingredient in ingredientList) {
+                        if (ingredient.term.equals(existingIngredient.term, ignoreCase = true)) {
+                            temp = ingredient
+                        }
+                    }
+                    ingredientList.remove(temp)
+                }
                 view.bindData(ingredientList)
             }
         }
+    }
+
+    fun onIngredientSelected(ingredient: Ingredient) {
+        ingredientList.remove(ingredient)
+        GlobalIngredientList.add(ingredient)
+        view.selectIngredient(ingredient)
+        view.bindData(ingredientList)
+    }
+
+    private fun setIngredientList(ingredients: List<Ingredient>) {
+        ingredientList.clear()
+        ingredientList.addAll(ingredients)
     }
 
     @Subscribe(sticky = true)
     fun onGetIngredientsEvent(event: GetIngredientsEvent) {
         EventBus.getDefault().removeStickyEvent(event)
         if (event.isSuccess) {
-            val ingredientList = ArrayList<Ingredient>()
+            ingredientList.clear()
             doAsync {
                 for (i in 0 until event.ingredientData.size) {
                     val ingredient = Ingredient()
