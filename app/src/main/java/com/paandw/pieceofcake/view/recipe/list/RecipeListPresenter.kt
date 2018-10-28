@@ -1,6 +1,7 @@
 package com.paandw.pieceofcake.view.recipe.list
 
 import com.paandw.pieceofcake.data.events.GetRecipesEvent
+import com.paandw.pieceofcake.data.models.Recipe
 import com.paandw.pieceofcake.data.service.RecipeService
 import com.paandw.pieceofcake.data.util.GlobalIngredientList
 import org.greenrobot.eventbus.EventBus
@@ -35,6 +36,10 @@ class RecipeListPresenter(private var view: IRecipeListView) {
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }
+    }
+
+    fun onRecipeClick(recipe: Recipe) {
+        view.toRecipeDetails(recipe)
     }
 
     @Subscribe(sticky = true)

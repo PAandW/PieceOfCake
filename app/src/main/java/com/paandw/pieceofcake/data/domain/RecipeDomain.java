@@ -1,6 +1,7 @@
 package com.paandw.pieceofcake.data.domain;
 
 import com.paandw.pieceofcake.data.AppService;
+import com.paandw.pieceofcake.data.models.RecipeDetails;
 import com.paandw.pieceofcake.data.models.RecipeListResponse;
 
 import java.util.List;
@@ -33,6 +34,20 @@ public class RecipeDomain extends BaseDomain {
 
             @Override
             public void onFailure(Call<RecipeListResponse> call, Throwable t) {
+                handleException(domainCallback, t);
+            }
+        });
+    }
+
+    public void getRecipeDetails(String id, final IDomainCallback<RecipeDetails> domainCallback) {
+        appService.getRecipeDetails(id).enqueue(new Callback<RecipeDetails>() {
+            @Override
+            public void onResponse(Call<RecipeDetails> call, Response<RecipeDetails> response) {
+                handleResponse(domainCallback, response);
+            }
+
+            @Override
+            public void onFailure(Call<RecipeDetails> call, Throwable t) {
                 handleException(domainCallback, t);
             }
         });

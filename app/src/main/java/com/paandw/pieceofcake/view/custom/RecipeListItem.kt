@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.paandw.pieceofcake.R
 import com.paandw.pieceofcake.data.models.Recipe
+import com.paandw.pieceofcake.view.recipe.list.RecipeListPresenter
 import kotlinx.android.synthetic.main.view_recipe_list_item.view.*
 
 
@@ -17,11 +18,13 @@ class RecipeListItem(context: Context) : FrameLayout(context) {
         View.inflate(context, R.layout.view_recipe_list_item, this)
     }
 
-    fun setup(recipe: Recipe) {
+    fun setup(recipe: Recipe, presenter: RecipeListPresenter) {
         tv_recipe_name.text = recipe.recipeName
         Glide.with(this)
                 .load(recipe.smallImageUrls[0])
                 .into(iv_recipe)
+
+        setOnClickListener { presenter.onRecipeClick(recipe) }
     }
 
 }

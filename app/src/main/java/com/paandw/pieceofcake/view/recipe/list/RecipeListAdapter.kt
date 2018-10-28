@@ -25,7 +25,7 @@ internal class RecipeListAdapter (private val presenter: RecipeListPresenter) : 
     override fun getItemCount(): Int = recipeItems.size
 
     override fun onBindViewHolder(holder: RecipeListAdapter.ViewHolder, position: Int) {
-        holder.searchItem.setup(recipeItems[position])
+        holder.searchItem.setup(recipeItems[position], presenter)
     }
 
     internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

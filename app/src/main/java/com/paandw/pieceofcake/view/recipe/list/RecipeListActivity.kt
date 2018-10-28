@@ -1,5 +1,6 @@
 package com.paandw.pieceofcake.view.recipe.list
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -7,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.paandw.pieceofcake.R
 import com.paandw.pieceofcake.data.models.Recipe
+import com.paandw.pieceofcake.view.recipe.RecipeActivity
 import kotlinx.android.synthetic.main.activity_recipe_list.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -58,5 +60,12 @@ class RecipeListActivity : AppCompatActivity(), IRecipeListView {
 
     override fun bindData(recipes: MutableList<Recipe>) {
         adapter.setListItems(recipes)
+    }
+
+    override fun toRecipeDetails(recipe: Recipe) {
+        val intent = Intent(this, RecipeActivity::class.java)
+        intent.putExtra("recipe_id", recipe.id)
+        intent.putExtra("recipe_name", recipe.recipeName)
+        startActivity(intent)
     }
 }

@@ -7,4 +7,5 @@ interface IRecipeListView {
     fun showLoadingDialog()
     fun hideLoadingDialog()
     fun bindData(recipes: MutableList<Recipe>)
+    fun toRecipeDetails(recipe: Recipe)
 }
