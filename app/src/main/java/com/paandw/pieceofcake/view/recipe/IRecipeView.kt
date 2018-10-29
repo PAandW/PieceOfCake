@@ -6,5 +6,6 @@ interface IRecipeView {
     fun showLoadingDialog()
     fun hideLoadingDialog()
     fun bindData(imageUrl: String, ingredientText: String, directionsUrl: String)
+    fun toReadDirections(url: String)
 
 }

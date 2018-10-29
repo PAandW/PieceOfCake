@@ -1,6 +1,9 @@
 package com.paandw.pieceofcake.view.recipe
 
+import android.net.Uri
 import android.os.Bundle
+import android.support.customtabs.CustomTabsIntent
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
@@ -31,6 +34,8 @@ class RecipeActivity : AppCompatActivity(), IRecipeView {
 
         presenter = RecipePresenter(this)
         presenter.start(id)
+
+        btn_read_directions.setOnClickListener { presenter.readDirections() }
     }
 
     override fun onPause() {
@@ -57,5 +62,12 @@ class RecipeActivity : AppCompatActivity(), IRecipeView {
                 .into(iv_recipe)
 
         tv_ingredient_list.text = ingredientText
+    }
+
+    override fun toReadDirections(url: String) {
+        val customTabsIntent = CustomTabsIntent.Builder()
+                .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .build()
+        customTabsIntent.launchUrl(this, Uri.parse(url))
     }
 }

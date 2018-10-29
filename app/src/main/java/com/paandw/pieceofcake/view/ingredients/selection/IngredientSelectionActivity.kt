@@ -54,6 +54,16 @@ class IngredientSelectionActivity : AppCompatActivity(), IIngredientSelectionVie
         })
     }
 
+    override fun onPause() {
+        presenter.onPause()
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
+
     override fun showLoadingDialog() {
         loadingDialog.show()
     }

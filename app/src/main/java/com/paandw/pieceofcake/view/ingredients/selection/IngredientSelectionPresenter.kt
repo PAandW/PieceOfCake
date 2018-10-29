@@ -19,9 +19,25 @@ class IngredientSelectionPresenter {
     private val ingredientList = ArrayList<Ingredient>()
 
     constructor(view: IIngredientSelectionView, database: IngredientDatabase) {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
+
         this.view = view
         this.database = database
         service = IngredientService()
+    }
+
+    fun onPause() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this)
+        }
+    }
+
+    fun onResume() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
     }
 
     fun start() {
@@ -86,8 +102,11 @@ class IngredientSelectionPresenter {
 
                 uiThread {
                     view.hideLoadingDialog()
+                    view.bindData(ingredientList)
                 }
             }
+        } else {
+            view.hideLoadingDialog()
         }
     }
 
