@@ -66,7 +66,7 @@ class RecipeActivity : AppCompatActivity(), IRecipeView {
 
     override fun toReadDirections(url: String) {
         val customTabsIntent = CustomTabsIntent.Builder()
-                .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .setToolbarColor(ContextCompat.getColor(this, R.color.primaryDarkColor))
                 .build()
         customTabsIntent.launchUrl(this, Uri.parse(url))
     }

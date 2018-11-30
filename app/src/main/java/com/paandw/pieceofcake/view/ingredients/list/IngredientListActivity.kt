@@ -30,7 +30,7 @@ class IngredientListActivity : AppCompatActivity(), IIngredientListView {
         rv_ingredients.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         rv_ingredients.adapter = adapter
 
-        btn_add_ingredients.setOnClickListener {
+        btn_find_ingredients.setOnClickListener {
             startActivityForResult(Intent(this, IngredientSelectionActivity::class.java), INGREDIENT_SELECTION_REQUEST_CODE)
         }
 
