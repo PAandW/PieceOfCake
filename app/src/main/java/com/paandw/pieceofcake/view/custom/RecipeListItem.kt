@@ -9,6 +9,7 @@ import com.paandw.pieceofcake.R
 import com.paandw.pieceofcake.data.models.Recipe
 import com.paandw.pieceofcake.view.recipe.list.RecipeListPresenter
 import kotlinx.android.synthetic.main.view_recipe_list_item.view.*
+import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
 
@@ -22,6 +23,10 @@ class RecipeListItem(context: Context) : FrameLayout(context) {
     fun setup(recipe: Recipe, presenter: RecipeListPresenter) {
         tv_recipe_name.text = recipe.recipeName
         tv_rating.text = "${recipe.rating.roundToInt()} / 5"
+        val prepTimeInMillis = (recipe.totalTimeInSeconds * 1000).toLong()
+        tv_prep_time.text = String.format("%d min",
+                TimeUnit.MILLISECONDS.toMinutes(prepTimeInMillis)
+        )
         Glide.with(this)
                 .load(recipe.smallImageUrls[0])
                 .into(iv_recipe)

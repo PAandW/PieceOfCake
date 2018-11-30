@@ -53,7 +53,7 @@ class RecipeActivity : AppCompatActivity(), IRecipeView {
     }
 
     override fun hideLoadingDialog() {
-        loadingDialog.hide()
+        loadingDialog.dismiss()
     }
 
     override fun bindData(imageUrl: String, ingredientText: String, directionsUrl: String) {
