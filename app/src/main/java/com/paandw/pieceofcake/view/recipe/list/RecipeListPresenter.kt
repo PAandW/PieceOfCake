@@ -11,6 +11,8 @@ import org.greenrobot.eventbus.Subscribe
 class RecipeListPresenter(private var view: IRecipeListView) {
 
     private var service: RecipeService = RecipeService()
+    private var filterIndex = -1
+    private var recipeList = ArrayList<Recipe>()
 
     fun start() {
         if (!EventBus.getDefault().isRegistered(this)) {
@@ -42,14 +44,38 @@ class RecipeListPresenter(private var view: IRecipeListView) {
         view.toRecipeDetails(recipe)
     }
 
+    fun initiateFilter() {
+        view.showFilterDialog(filterIndex)
+    }
+
+    fun filterIndexSelected(index: Int) {
+        if (index == 0) {
+            recipeList.sortBy { it.recipeName }
+        } else if (index == 1) {
+            recipeList.sortByDescending { it.recipeName }
+        } else if (index == 2) {
+            recipeList.sortByDescending { it.rating }
+        } else if (index == 3) {
+            recipeList.sortBy { it.rating }
+        } else if (index == 4) {
+            recipeList.sortBy { it.totalTimeInSeconds }
+        } else if (index == 5) {
+            recipeList.sortByDescending { it.totalTimeInSeconds }
+        }
+
+        view.bindData(recipeList)
+    }
+
     @Subscribe(sticky = true)
     fun onGetRecipesEvent(event: GetRecipesEvent) {
         EventBus.getDefault().removeStickyEvent(event)
         view.hideLoadingDialog()
         if (event.isSuccess) {
             val recipes = event.recipes
-            recipes.removeAll { it.smallImageUrls != null && it.smallImageUrls.isEmpty() }
-            view.bindData(recipes)
+            recipes.removeAll { it.smallImageUrls == null || it.smallImageUrls.isEmpty() }
+            recipeList.clear()
+            recipeList.addAll(recipes)
+            view.bindData(recipeList)
         }
     }
 

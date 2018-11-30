@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="recipe_filter">
+        <item>A-Z</item>
+        <item>Z-A</item>
+        <item>Rating high-to-low</item>
+        <item>Rating low-to-high</item>
+        <item>Prep time low-to-high</item>
+        <item>Prep time high-to-low</item>
+    </string-array>
+</resources>
