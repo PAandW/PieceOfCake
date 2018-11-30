@@ -1,5 +1,6 @@
 package com.paandw.pieceofcake.view.ingredients.list
 
+import com.paandw.pieceofcake.data.models.Ingredient
 import com.paandw.pieceofcake.data.service.IngredientService
 import com.paandw.pieceofcake.data.util.GlobalIngredientList
 
@@ -21,8 +22,17 @@ class IngredientListPresenter {
         //register eventbus if needed
     }
 
+    fun ingredientDeleteClicked(ingredient: Ingredient) {
+        view.showIngredientDeletionConfirmation(ingredient)
+    }
+
     fun refreshIngredientList() {
         view.bindIngredients(GlobalIngredientList.get())
+    }
+
+    fun deleteIngredient(ingredient: Ingredient) {
+        GlobalIngredientList.remove(ingredient)
+        refreshIngredientList()
     }
 
     fun deleteAllIngredients() {

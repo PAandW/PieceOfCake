@@ -13,6 +13,11 @@ public class GlobalIngredientList {
         ingredients.add(ingredient);
     }
 
+    public static void remove(Ingredient ingredient) {
+        createList();
+        ingredients.remove(ingredient);
+    }
+
     public static List<Ingredient> get() {
         createList();
         return ingredients;

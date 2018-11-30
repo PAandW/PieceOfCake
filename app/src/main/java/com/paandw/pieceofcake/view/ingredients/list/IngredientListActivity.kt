@@ -77,6 +77,18 @@ class IngredientListActivity : AppCompatActivity(), IIngredientListView {
         presenter?.onResume()
     }
 
+    override fun showIngredientDeletionConfirmation(ingredient: Ingredient) {
+        MaterialDialog.Builder(this)
+                .title("Remove Ingredient")
+                .content("Remove ${ingredient.term} from the ingredient list?")
+                .positiveText("Yes")
+                .negativeText("No")
+                .positiveColor(ContextCompat.getColor(this, R.color.primaryTextColor))
+                .negativeColor(ContextCompat.getColor(this, R.color.primaryTextColor))
+                .onPositive { _, _ -> presenter?.deleteIngredient(ingredient) }
+                .show()
+    }
+
     override fun bindIngredients(ingredients: MutableList<Ingredient>) {
         if (ingredients.isEmpty()) {
             iv_cake.visibility = View.VISIBLE

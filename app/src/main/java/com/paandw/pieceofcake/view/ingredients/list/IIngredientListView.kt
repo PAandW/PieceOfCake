@@ -5,4 +5,5 @@ import com.paandw.pieceofcake.data.models.Ingredient
 
 interface IIngredientListView {
     fun bindIngredients(ingredients: MutableList<Ingredient>)
+    fun showIngredientDeletionConfirmation(ingredient: Ingredient)
 }
