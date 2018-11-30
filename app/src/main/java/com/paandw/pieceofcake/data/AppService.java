@@ -25,7 +25,7 @@ public interface AppService {
             "X-Yummly-App-ID: 9ddc868a",
             "X-Yummly-App-Key: 8d26da538d435176bdcc0510f4bd6fd0"
     })
-    @GET("recipes?allowedCourse[]=course^course-Desserts")
+    @GET("recipes?allowedCourse[]=course^course-Desserts&maxResult=100&requirePictures=true")
     Call<RecipeListResponse> getRecipes(@Query(value = "allowedIngredient[]", encoded = true) List<String> ingredients);
 
 

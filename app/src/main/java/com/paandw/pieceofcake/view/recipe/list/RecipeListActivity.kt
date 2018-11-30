@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.StaggeredGridLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.paandw.pieceofcake.R
 import com.paandw.pieceofcake.data.models.Recipe
@@ -33,8 +35,7 @@ class RecipeListActivity : AppCompatActivity(), IRecipeListView {
 
         presenter = RecipeListPresenter(this)
         adapter = RecipeListAdapter(presenter)
-        rv_recipes.layoutManager = LinearLayoutManager(this)
-        rv_recipes.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        rv_recipes.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         rv_recipes.adapter = adapter
 
         presenter.start()

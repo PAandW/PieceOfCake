@@ -49,9 +49,7 @@ class IngredientSelectionActivity : AppCompatActivity(), IIngredientSelectionVie
 
             override fun beforeTextChanged(searchValue: CharSequence?, p1: Int, p2: Int, p3: Int) { }
 
-            override fun onTextChanged(searchValue: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                //presenter.searchIngredients(searchValue.toString())
-            }
+            override fun onTextChanged(searchValue: CharSequence?, p1: Int, p2: Int, p3: Int) { }
         })
     }
 
@@ -90,6 +88,7 @@ class IngredientSelectionActivity : AppCompatActivity(), IIngredientSelectionVie
     }
 
     override fun selectIngredient(ingredient: Ingredient) {
+        et_search.text.clear()
         Toast.makeText(this, "${ingredient.term} added to list", Toast.LENGTH_SHORT).show()
     }
 }
