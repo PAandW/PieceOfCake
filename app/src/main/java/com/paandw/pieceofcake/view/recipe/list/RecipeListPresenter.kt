@@ -49,6 +49,7 @@ class RecipeListPresenter(private var view: IRecipeListView) {
     }
 
     fun filterIndexSelected(index: Int) {
+        filterIndex = index
         if (index == 0) {
             recipeList.sortBy { it.recipeName }
         } else if (index == 1) {
