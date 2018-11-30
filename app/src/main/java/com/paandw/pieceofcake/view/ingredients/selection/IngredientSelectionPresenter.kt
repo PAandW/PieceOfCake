@@ -74,6 +74,10 @@ class IngredientSelectionPresenter {
     }
 
     fun onIngredientSelected(ingredient: Ingredient) {
+        view.showConfirmationDialog(ingredient)
+    }
+
+    fun addIngredientToList(ingredient: Ingredient) {
         ingredientList.remove(ingredient)
         GlobalIngredientList.add(ingredient)
         view.selectIngredient(ingredient)
