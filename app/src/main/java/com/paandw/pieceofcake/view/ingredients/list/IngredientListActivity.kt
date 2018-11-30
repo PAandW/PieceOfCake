@@ -2,10 +2,14 @@ package com.paandw.pieceofcake.view.ingredients.list
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toolbar
+import com.afollestad.materialdialogs.MaterialDialog
 import com.paandw.pieceofcake.R
 import com.paandw.pieceofcake.data.models.Ingredient
 import com.paandw.pieceofcake.view.ingredients.selection.IngredientSelectionActivity
@@ -23,6 +27,21 @@ class IngredientListActivity : AppCompatActivity(), IIngredientListView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ingredient_list)
         toolbar.title = "Ingredient List"
+        toolbar.inflateMenu(R.menu.menu_ingredient_list)
+        toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.action_delete_all) {
+                MaterialDialog.Builder(this)
+                        .title("Delete all")
+                        .content("Delete all ingredients from the list?")
+                        .positiveColor(ContextCompat.getColor(this, R.color.primaryTextColor))
+                        .negativeColor(ContextCompat.getColor(this, R.color.primaryTextColor))
+                        .negativeText("No")
+                        .positiveText("Yes")
+                        .onPositive { _, _ -> presenter?.deleteAllIngredients() }
+                        .show()
+            }
+            true
+        }
         presenter = IngredientListPresenter(this)
 
         adapter = IngredientListAdapter(presenter!!)
@@ -63,10 +82,12 @@ class IngredientListActivity : AppCompatActivity(), IIngredientListView {
             iv_cake.visibility = View.VISIBLE
             tv_empty_state.visibility = View.VISIBLE
             rv_ingredients.visibility = View.INVISIBLE
+            toolbar.menu.getItem(0).isVisible = false
         } else {
             iv_cake.visibility = View.INVISIBLE
             tv_empty_state.visibility = View.INVISIBLE
             rv_ingredients.visibility = View.VISIBLE
+            toolbar.menu.getItem(0).isVisible = true
         }
 
         adapter?.setListItems(ingredients)

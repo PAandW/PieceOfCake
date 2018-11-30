@@ -10,6 +10,7 @@ class IngredientListPresenter {
 
     constructor(view: IIngredientListView) {
         this.view = view
+        refreshIngredientList()
     }
 
     fun onPause() {
@@ -22,6 +23,11 @@ class IngredientListPresenter {
 
     fun refreshIngredientList() {
         view.bindIngredients(GlobalIngredientList.get())
+    }
+
+    fun deleteAllIngredients() {
+        GlobalIngredientList.clear()
+        refreshIngredientList()
     }
 
 }
