@@ -9,6 +9,7 @@ import com.paandw.pieceofcake.R
 import com.paandw.pieceofcake.data.models.Recipe
 import com.paandw.pieceofcake.view.recipe.list.RecipeListPresenter
 import kotlinx.android.synthetic.main.view_recipe_list_item.view.*
+import kotlin.math.roundToInt
 
 
 class RecipeListItem(context: Context) : FrameLayout(context) {
@@ -20,6 +21,7 @@ class RecipeListItem(context: Context) : FrameLayout(context) {
 
     fun setup(recipe: Recipe, presenter: RecipeListPresenter) {
         tv_recipe_name.text = recipe.recipeName
+        tv_rating.text = "${recipe.rating.roundToInt()} / 5"
         Glide.with(this)
                 .load(recipe.smallImageUrls[0])
                 .into(iv_recipe)

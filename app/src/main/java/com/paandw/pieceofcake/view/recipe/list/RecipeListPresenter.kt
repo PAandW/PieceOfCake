@@ -47,7 +47,9 @@ class RecipeListPresenter(private var view: IRecipeListView) {
         EventBus.getDefault().removeStickyEvent(event)
         view.hideLoadingDialog()
         if (event.isSuccess) {
-            view.bindData(event.recipes)
+            val recipes = event.recipes
+            recipes.removeAll { it.smallImageUrls != null && it.smallImageUrls.isEmpty() }
+            view.bindData(recipes)
         }
     }
 
