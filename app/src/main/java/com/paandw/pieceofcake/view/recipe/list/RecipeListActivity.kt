@@ -26,6 +26,8 @@ class RecipeListActivity : AppCompatActivity(), IRecipeListView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_list)
 
+        // A loading dialog is created here to be displayed while the API call to retrieve recipes
+        // is in progress
         loadingDialog = MaterialDialog.Builder(this)
                 .content("Loading...")
                 .progress(true, 0)
@@ -33,6 +35,9 @@ class RecipeListActivity : AppCompatActivity(), IRecipeListView {
 
         toolbar.title = "Recipes"
         toolbar.inflateMenu(R.menu.menu_recipe_list)
+
+        // The only icon in the toolbar is a filter icon, when clicked it starts the process to display
+        // the filter dialog box
         toolbar.setOnMenuItemClickListener {
             if (it.itemId == R.id.action_filter) {
                 presenter.initiateFilter()
@@ -72,6 +77,8 @@ class RecipeListActivity : AppCompatActivity(), IRecipeListView {
         adapter.setListItems(recipes)
     }
 
+    // Called from the presenter when a recipe is clicked. Takes the user to the details screen
+    // about the selected recipe. Passes on a recipe ID and recipe name to the details activity.
     override fun toRecipeDetails(recipe: Recipe) {
         val intent = Intent(this, RecipeActivity::class.java)
         intent.putExtra("recipe_id", recipe.id)
@@ -79,6 +86,7 @@ class RecipeListActivity : AppCompatActivity(), IRecipeListView {
         startActivity(intent)
     }
 
+    // Filter dialog box is shown with various options by which to filter the recipe list
     override fun showFilterDialog(index: Int) {
         val dialog = MaterialDialog.Builder(this)
                 .items(R.array.recipe_filter)

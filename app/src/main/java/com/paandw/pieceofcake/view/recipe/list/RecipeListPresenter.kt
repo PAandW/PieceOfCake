@@ -15,10 +15,13 @@ class RecipeListPresenter(private var view: IRecipeListView) {
     private var recipeList = ArrayList<Recipe>()
 
     fun start() {
+        // We subscribe to the EventBus immediately so we can detect when the getRecipes() call finishes
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
 
+        // We then get the list of ingredients needed in the recipes and initiate the API call
+        // via service.getRecipes()
         val ingredientNames = ArrayList<String>()
         for (ingredient in GlobalIngredientList.get()) {
             ingredientNames.add(ingredient.term)
@@ -48,6 +51,7 @@ class RecipeListPresenter(private var view: IRecipeListView) {
         view.showFilterDialog(filterIndex)
     }
 
+    // Sorts the list of recipes based on the filter option selected
     fun filterIndexSelected(index: Int) {
         filterIndex = index
         if (index == 0) {
@@ -67,6 +71,8 @@ class RecipeListPresenter(private var view: IRecipeListView) {
         view.bindData(recipeList)
     }
 
+    // Listener for the event fired off at the end of the getRecipes() API call. Binds the recipes
+    // to the list and displays them
     @Subscribe(sticky = true)
     fun onGetRecipesEvent(event: GetRecipesEvent) {
         EventBus.getDefault().removeStickyEvent(event)

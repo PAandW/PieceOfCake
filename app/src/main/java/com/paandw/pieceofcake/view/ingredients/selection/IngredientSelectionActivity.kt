@@ -26,15 +26,19 @@ class IngredientSelectionActivity : AppCompatActivity(), IIngredientSelectionVie
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ingredient_selection)
 
+        // The user only needs to download the list of ingredients the first time they open the app.
+        // This loading dialog is instantiated here in case it needs to be shown (in the event the
+        // user has not downloaded the ingredients yet
         loadingDialog = MaterialDialog.Builder(this)
                 .content("Updating ingredient data")
                 .progress(true, 0)
                 .build()
 
-        toolbar.title = "Add Ingredients"
+        toolbar.title = "Find Ingredients"
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
         toolbar.setNavigationOnClickListener { _ -> onBackPressed() }
 
+        // Presenter created with a reference to the ingredient database table
         presenter = IngredientSelectionPresenter(this, Room.databaseBuilder(this, IngredientDatabase::class.java, "ingredient_database").build())
         adapter = IngredientSelectionAdapter(presenter)
         rv_ingredients.layoutManager = LinearLayoutManager(this)
@@ -42,6 +46,8 @@ class IngredientSelectionActivity : AppCompatActivity(), IIngredientSelectionVie
         rv_ingredients.adapter = adapter
         presenter.start()
 
+        // Text listener on the search box. Whenever a letter is typed a new search to the database
+        // is initiated.
         et_search.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(searchValue: Editable?) {
                 presenter.searchIngredients(searchValue.toString())
@@ -75,6 +81,8 @@ class IngredientSelectionActivity : AppCompatActivity(), IIngredientSelectionVie
         adapter?.setSearchItems(ingredientList)
     }
 
+    // This will display a dialog confirming the user wants to add an ingredient. This eliminates
+    // the issue of users accidentally adding items to the list
     override fun showConfirmationDialog(ingredient: Ingredient) {
         MaterialDialog.Builder(this)
                 .title("Add Ingredient")

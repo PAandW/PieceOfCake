@@ -16,11 +16,15 @@ class RecipePresenter (private var view: IRecipeView){
     private var recipe: RecipeDetails? = null
 
     fun start(recipeId: String) {
+        // Again, registering for the EventBus so we can get the event fired off after the
+        // getRecipeDetails() call responds
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
 
         view.showLoadingDialog()
+        // Call is made to get the recipe details of the recipe with the ID we passed in from the
+        // previous screen
         service.getRecipeDetails(recipeId)
     }
 
@@ -36,6 +40,8 @@ class RecipePresenter (private var view: IRecipeView){
         }
     }
 
+    // Directions aren't returned in the API response, but a link to the directions URL is. So we
+    // construct that URL here and pass it to the view.
     fun readDirections() {
         if(recipe != null && recipe?.attribution != null) {
             var url = recipe!!.attribution!!.url
@@ -44,6 +50,7 @@ class RecipePresenter (private var view: IRecipeView){
         }
     }
 
+    // Once the recipe details are returned from API the details are passed to the view
     @Subscribe(sticky = true)
     fun onGetRecipeEvent(event: GetRecipeDetailsEvent) {
         EventBus.getDefault().removeStickyEvent(event)
@@ -52,6 +59,8 @@ class RecipePresenter (private var view: IRecipeView){
             recipe = event.recipeDetails
             val imageUrl = event.recipeDetails.images[0].hostedLargeUrl
             var ingredientText = ""
+
+            // Here we construct a string containing all the ingredients in a readable form
             for (ingredientLine in event.recipeDetails.ingredientLines) {
                 ingredientText += "- $ingredientLine\n"
             }

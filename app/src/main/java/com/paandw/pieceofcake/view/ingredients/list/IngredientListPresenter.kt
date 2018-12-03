@@ -26,6 +26,8 @@ class IngredientListPresenter {
         view.showIngredientDeletionConfirmation(ingredient)
     }
 
+    // The GlobalIngredientList is simply a static list of all ingredients currently stored in the
+    // selected list
     fun refreshIngredientList() {
         view.bindIngredients(GlobalIngredientList.get())
     }

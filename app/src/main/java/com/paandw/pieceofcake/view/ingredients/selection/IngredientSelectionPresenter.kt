@@ -41,6 +41,9 @@ class IngredientSelectionPresenter {
     }
 
     fun start() {
+        // An asynchronous (background thread) is started to access the ingredient database
+        // If the count returns 0 (meaning the user hasn't downloaded the ingredient list), a network
+        // call is fired off and that loading dialog we have ready is displayed
         doAsync {
             val count = database.ingredientDao().count()
 
@@ -53,6 +56,10 @@ class IngredientSelectionPresenter {
         }
     }
 
+    // Every time the user types a letter this method is fired off which searches for names of
+    // ingredients in the database that are similar to what was typed. Again, database calls are
+    // made asynchronously and once they're done fire off an update to the view to display ingredients
+    // that match the search
     fun searchIngredients(searchTerm: String) {
         ingredientList.clear()
         doAsync {
@@ -77,6 +84,7 @@ class IngredientSelectionPresenter {
         view.showConfirmationDialog(ingredient)
     }
 
+    // Adds ingredients to global static ingredient list to be used elsewhere in app
     fun addIngredientToList(ingredient: Ingredient) {
         ingredientList.remove(ingredient)
         GlobalIngredientList.add(ingredient)
@@ -89,6 +97,9 @@ class IngredientSelectionPresenter {
         ingredientList.addAll(ingredients)
     }
 
+    // The network response. If the API call was made to get the ingredients, once it succeeds it'll
+    // fire off an event that we're subscribed to here. At this point all the ingredients are inserted
+    // in the database, and ideally we'll never have to make that API call again.
     @Subscribe(sticky = true)
     fun onGetIngredientsEvent(event: GetIngredientsEvent) {
         EventBus.getDefault().removeStickyEvent(event)

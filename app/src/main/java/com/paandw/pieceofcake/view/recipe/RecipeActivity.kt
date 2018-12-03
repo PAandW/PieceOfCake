@@ -20,6 +20,7 @@ class RecipeActivity : AppCompatActivity(), IRecipeView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
 
+        // The recipe ID and recipe name are taken from the intent that was passed to it
         val id = intent.getStringExtra("recipe_id")
         val name = intent.getStringExtra("recipe_name")
 
@@ -57,6 +58,7 @@ class RecipeActivity : AppCompatActivity(), IRecipeView {
     }
 
     override fun bindData(imageUrl: String, ingredientText: String, directionsUrl: String, rating: String, prepTime: String) {
+        // Glide is a library used to load images in a background thread and display them when they're ready
         Glide.with(this)
                 .load(imageUrl)
                 .into(iv_recipe)
@@ -66,6 +68,9 @@ class RecipeActivity : AppCompatActivity(), IRecipeView {
         tv_prep_time.text = prepTime
     }
 
+    // Since the directions aren't included in the API, we have to use a thing called "CustomTabs".
+    // This will open a webpage with the URL provided and allow the user to navigate it while
+    // remaining within the context of the app.
     override fun toReadDirections(url: String) {
         val customTabsIntent = CustomTabsIntent.Builder()
                 .setToolbarColor(ContextCompat.getColor(this, R.color.primaryDarkColor))
