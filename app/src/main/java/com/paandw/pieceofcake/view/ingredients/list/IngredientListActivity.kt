@@ -4,11 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.view.MenuItem
 import android.view.View
-import android.widget.Toolbar
 import com.afollestad.materialdialogs.MaterialDialog
 import com.paandw.pieceofcake.R
 import com.paandw.pieceofcake.data.models.Ingredient
@@ -26,6 +25,7 @@ class IngredientListActivity : AppCompatActivity(), IIngredientListView {
     override fun onCreate(savedInstanceState: Bundle?) {
         // This is the main screen of the app. It opens directly to this
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         setContentView(R.layout.activity_ingredient_list)
         toolbar.title = "Ingredient List"
         // The toolbar "menu" is just a single trash can icon

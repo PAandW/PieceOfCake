@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
@@ -24,6 +22,7 @@ class RecipeListActivity : AppCompatActivity(), IRecipeListView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         setContentView(R.layout.activity_recipe_list)
 
         // A loading dialog is created here to be displayed while the API call to retrieve recipes
