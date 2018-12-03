@@ -21,11 +21,73 @@
     <ImageView
         android:id="@+id/iv_recipe"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_toolbar_container"/>
+
+    <TextView
+        android:id="@+id/tv_rating_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
+        android:text="Rating:"
+        app:layout_constraintTop_toBottomOf="@+id/iv_recipe"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:srcCompat="@drawable/ic_star"
+        app:layout_constraintStart_toEndOf="@+id/tv_rating_label"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rating_label"
+        app:layout_constraintTop_toTopOf="@+id/tv_rating_label"/>
+
+    <TextView
+        android:id="@+id/tv_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/primaryTextColor"
+        tools:text="4/5"
+        app:layout_constraintStart_toEndOf="@+id/iv_rating"
+        app:layout_constraintTop_toTopOf="@+id/iv_rating"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_rating"/>
+
+    <TextView
+        android:id="@+id/tv_prep_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        android:text="Prep time:"
+        app:layout_constraintTop_toBottomOf="@+id/iv_recipe"
+        app:layout_constraintEnd_toStartOf="@+id/tv_prep_time"/>
+
+    <TextView
+        android:id="@+id/tv_prep_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/primaryTextColor"
+        tools:text="45 min"
+        app:layout_constraintTop_toBottomOf="@+id/iv_recipe"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/primaryTextColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_rating"/>
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -33,7 +95,7 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_recipe"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
         app:layout_constraintBottom_toTopOf="@+id/btn_read_directions">
 
         <LinearLayout
@@ -42,12 +104,20 @@
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:text="Ingredients:"/>
+
+            <TextView
                 android:id="@+id/tv_ingredient_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/primaryTextColor"/>
 
         </LinearLayout>
 

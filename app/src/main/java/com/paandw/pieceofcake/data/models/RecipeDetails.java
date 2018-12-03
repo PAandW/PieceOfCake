@@ -13,4 +13,5 @@ public class RecipeDetails {
     public List<String> ingredientLines;
     public List<RecipeImages> images;
     public RecipeAttributions attribution;
+    public double rating;
 }

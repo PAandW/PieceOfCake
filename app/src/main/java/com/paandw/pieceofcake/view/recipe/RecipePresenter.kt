@@ -3,8 +3,11 @@ package com.paandw.pieceofcake.view.recipe
 import com.paandw.pieceofcake.data.events.GetRecipeDetailsEvent
 import com.paandw.pieceofcake.data.models.RecipeDetails
 import com.paandw.pieceofcake.data.service.RecipeService
+import kotlinx.android.synthetic.main.view_recipe_list_item.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
 
 
 class RecipePresenter (private var view: IRecipeView){
@@ -53,8 +56,13 @@ class RecipePresenter (private var view: IRecipeView){
                 ingredientText += "- $ingredientLine\n"
             }
             val directionsUrl = event.recipeDetails.attribution.url
+            val rating = "${event.recipeDetails.rating}/5"
+            val prepTimeInMillis = (event.recipeDetails.totalTimeInSeconds * 1000).toLong()
+            val prepTime = String.format("%d min",
+                    TimeUnit.MILLISECONDS.toMinutes(prepTimeInMillis)
+            )
 
-            view.bindData(imageUrl, ingredientText, directionsUrl)
+            view.bindData(imageUrl, ingredientText, directionsUrl, rating, prepTime)
         }
     }
 

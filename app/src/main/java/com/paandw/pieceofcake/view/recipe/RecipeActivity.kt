@@ -56,12 +56,14 @@ class RecipeActivity : AppCompatActivity(), IRecipeView {
         loadingDialog.dismiss()
     }
 
-    override fun bindData(imageUrl: String, ingredientText: String, directionsUrl: String) {
+    override fun bindData(imageUrl: String, ingredientText: String, directionsUrl: String, rating: String, prepTime: String) {
         Glide.with(this)
                 .load(imageUrl)
                 .into(iv_recipe)
 
         tv_ingredient_list.text = ingredientText
+        tv_rating.text = rating
+        tv_prep_time.text = prepTime
     }
 
     override fun toReadDirections(url: String) {
